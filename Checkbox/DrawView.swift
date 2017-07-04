@@ -38,12 +38,17 @@ class DrawView: UIView {
         animation.duration = 0.5
         animation.fromValue = 0
         animation.toValue = 1
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.timingFunction = CAMediaTimingFunction(
+            name: kCAMediaTimingFunctionLinear
+        )
         
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.strokeColor = UIColor.black.cgColor
         shapeLayer.lineWidth = 1.0
         shapeLayer.strokeEnd = 1
+        
+        shapeLayer.lineJoin = kCALineJoinRound
+        shapeLayer.lineCap = kCALineCapRound
     }
     
     func startAnimation() {
