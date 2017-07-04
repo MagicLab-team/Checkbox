@@ -69,5 +69,9 @@ class DrawView: UIView {
         
         shapeLayer.removeAllAnimations()
         shapeLayer.add(revAnimation, forKey: "animate")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + revAnimation.duration) {
+            self.isHidden = true
+        }
     }
 }
