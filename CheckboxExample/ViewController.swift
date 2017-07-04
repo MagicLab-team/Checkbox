@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let _ = Checkbox()
+        //let _ = CheckBox()
     }
 
     override func didReceiveMemoryWarning() {
