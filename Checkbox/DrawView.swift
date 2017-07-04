@@ -34,7 +34,7 @@ class DrawView: UIView {
     
     func commandInit() {
         
-        animation.duration = 2
+        animation.duration = 0.5
         animation.fromValue = 0
         animation.toValue = 1
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)

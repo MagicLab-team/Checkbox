@@ -52,7 +52,6 @@ class CheckBox: UIView {
         selectedCircleView.shapeLayer.lineWidth = 2
         selectedTickView.shapeLayer.strokeColor = UIColor.green.cgColor
         selectedTickView.shapeLayer.lineWidth = 2
-        selectedTickView.animation.duration = 4
         
         self.addSubview(selectedCircleView)
         selectedCircleView.addSubview(selectedTickView)
