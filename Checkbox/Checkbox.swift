@@ -12,16 +12,34 @@ import UIKit
 @IBDesignable
 public class CheckBox: UIView {
     
-    private (set) var selectedCircleView: CircleView!
-    private (set) var selectedCheckView: CheckView!
-    
     private (set) var unselectedCircleView: CircleView!
+    private (set) var selectedCircleView: CircleView!
+    
     private (set) var unselectedCheckView: CheckView!
+    private (set) var selectedCheckView: CheckView!
     
     private var unselectedViews: [DrawView]!
     private var selectedViews: [DrawView]!
     
     
+    public var borderLineWidth: CGFloat = 2 {
+        didSet {
+            unselectedCircleView.shapeLayer.lineWidth = borderLineWidth
+            selectedCircleView.shapeLayer.lineWidth = borderLineWidth
+        }
+    }
+    public var checkLineWidth: CGFloat = 2 {
+        didSet {
+            unselectedCheckView.shapeLayer.lineWidth = checkLineWidth
+            selectedCheckView.shapeLayer.lineWidth = checkLineWidth
+        }
+    }
+    public var lineWidth: CGFloat = 2 {
+        didSet {
+            borderLineWidth = lineWidth
+            checkLineWidth = lineWidth
+        }
+    }
     public var unselectedBorderColor: UIColor = UIColor.clear {
         didSet {
             unselectedCircleView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
@@ -105,10 +123,10 @@ public class CheckBox: UIView {
             )
         )
         selectedCircleView.shapeLayer.strokeColor = selectedBorderColor.cgColor
-        selectedCircleView.shapeLayer.lineWidth = 2
+        selectedCircleView.shapeLayer.lineWidth = borderLineWidth
         
         selectedCheckView.shapeLayer.strokeColor = selectedCheckColor.cgColor
-        selectedCheckView.shapeLayer.lineWidth = 2
+        selectedCheckView.shapeLayer.lineWidth = borderLineWidth
         
         self.addSubview(selectedCircleView)
         selectedCircleView.addSubview(selectedCheckView)
@@ -120,9 +138,9 @@ public class CheckBox: UIView {
         unselectedCheckView = CheckView(frame: selectedCheckView.frame)
         unselectedCheckView.shapeLayer.path = unselectedCheckView.path.reversing().cgPath
         unselectedCircleView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
-        unselectedCircleView.shapeLayer.lineWidth = 2
+        unselectedCircleView.shapeLayer.lineWidth = checkLineWidth
         unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
-        unselectedCheckView.shapeLayer.lineWidth = 2
+        unselectedCheckView.shapeLayer.lineWidth = checkLineWidth
         
         self.addSubview(unselectedCircleView)
         unselectedCircleView.addSubview(unselectedCheckView)

@@ -21,11 +21,12 @@ class ViewController: UIViewController {
         view.addSubview(checkbox)
         checkbox.selectedBorderColor = UIColor.yellow
         
-        bigCheckbox.unselectedBorderColor = UIColor.clear
-        bigCheckbox.selectedBorderColor = UIColor.clear
-        bigCheckbox.unselectedCheckColor = UIColor.yellow
+        bigCheckbox.unselectedBorderColor = UIColor.gray
+        bigCheckbox.selectedBorderColor = UIColor.cyan
+        bigCheckbox.unselectedCheckColor = UIColor.darkGray
         bigCheckbox.selectedCheckColor = UIColor.red
         bigCheckbox.animationDuration = 0.5
+        bigCheckbox.lineWidth = 5
     }
 
     override func didReceiveMemoryWarning() {
