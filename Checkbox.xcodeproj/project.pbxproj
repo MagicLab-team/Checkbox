@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		325F58371F0C0AEC0095122C /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325F58361F0C0AEC0095122C /* CircleView.swift */; };
-		325F58391F0C0AFE0095122C /* TickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325F58381F0C0AFE0095122C /* TickView.swift */; };
+		325F58391F0C0AFE0095122C /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325F58381F0C0AFE0095122C /* CheckView.swift */; };
 		325F583B1F0C0B0E0095122C /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325F583A1F0C0B0E0095122C /* DrawView.swift */; };
 		B515075A1F0BB32A00AC4C46 /* Checkbox.h in Headers */ = {isa = PBXBuildFile; fileRef = B51507581F0BB32A00AC4C46 /* Checkbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B56DF1B61F0BB362007B99D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56DF1B51F0BB362007B99D6 /* AppDelegate.swift */; };
@@ -47,7 +47,7 @@
 
 /* Begin PBXFileReference section */
 		325F58361F0C0AEC0095122C /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
-		325F58381F0C0AFE0095122C /* TickView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickView.swift; sourceTree = "<group>"; };
+		325F58381F0C0AFE0095122C /* CheckView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
 		325F583A1F0C0B0E0095122C /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 		B51507551F0BB32A00AC4C46 /* Checkbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Checkbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B51507581F0BB32A00AC4C46 /* Checkbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Checkbox.h; sourceTree = "<group>"; };
@@ -103,11 +103,11 @@
 			isa = PBXGroup;
 			children = (
 				B51507581F0BB32A00AC4C46 /* Checkbox.h */,
-				B51507591F0BB32A00AC4C46 /* Info.plist */,
 				B56DF1CA1F0BB376007B99D6 /* Checkbox.swift */,
 				325F58361F0C0AEC0095122C /* CircleView.swift */,
-				325F58381F0C0AFE0095122C /* TickView.swift */,
+				325F58381F0C0AFE0095122C /* CheckView.swift */,
 				325F583A1F0C0B0E0095122C /* DrawView.swift */,
+				B51507591F0BB32A00AC4C46 /* Info.plist */,
 			);
 			path = Checkbox;
 			sourceTree = "<group>";
@@ -246,7 +246,7 @@
 				325F58371F0C0AEC0095122C /* CircleView.swift in Sources */,
 				B56DF1CB1F0BB376007B99D6 /* Checkbox.swift in Sources */,
 				325F583B1F0C0B0E0095122C /* DrawView.swift in Sources */,
-				325F58391F0C0AFE0095122C /* TickView.swift in Sources */,
+				325F58391F0C0AFE0095122C /* CheckView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

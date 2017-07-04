@@ -20,20 +20,21 @@ class DrawView: UIView {
         }
     }
     
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        commandInit()
+        commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        commandInit()
+        commonInit()
     }
     
-    func commandInit() {
-        
+    func commonInit() {
         animation.duration = 0.5
         animation.fromValue = 0
         animation.toValue = 1
@@ -43,8 +44,6 @@ class DrawView: UIView {
         shapeLayer.strokeColor = UIColor.black.cgColor
         shapeLayer.lineWidth = 1.0
         shapeLayer.strokeEnd = 1
-        
-        print("draw command init")
     }
     
     func startAnimation() {
@@ -53,24 +52,17 @@ class DrawView: UIView {
         shapeLayer.add(animation, forKey: "animate")
     }
     
-    func reversAnimation(duration: CFTimeInterval) {
-        self.isHidden = false
-        CATransaction.begin()
-        CATransaction.setCompletionBlock({
-            self.isHidden = true
-        })
+    func reverseAnimation(duration: CFTimeInterval) {
         let revAnimation = CABasicAnimation(keyPath: "strokeEnd")
         
         revAnimation.fromValue = shapeLayer.presentation()?.strokeEnd
         revAnimation.toValue = 0.0
         revAnimation.timingFunction = animation.timingFunction
         revAnimation.duration = duration
+        revAnimation.isRemovedOnCompletion = false
+        revAnimation.fillMode = kCAFillModeForwards
         
         shapeLayer.removeAllAnimations()
         shapeLayer.add(revAnimation, forKey: "animate")
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-            CATransaction.commit()
-        }
-        
     }
 }

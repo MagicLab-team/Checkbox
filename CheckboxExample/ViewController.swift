@@ -12,10 +12,20 @@ import Checkbox
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var bigCheckbox: CheckBox!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //let _ = CheckBox()
+        let checkbox = CheckBox(frame: CGRect(x: 100, y: 100, width: 100, height: 150))
+        view.addSubview(checkbox)
+        checkbox.selectedBorderColor = UIColor.yellow
+        
+        bigCheckbox.unselectedBorderColor = UIColor.clear
+        bigCheckbox.selectedBorderColor = UIColor.clear
+        bigCheckbox.unselectedCheckColor = UIColor.yellow
+        bigCheckbox.selectedCheckColor = UIColor.red
+        bigCheckbox.animationDuration = 0.5
     }
 
     override func didReceiveMemoryWarning() {

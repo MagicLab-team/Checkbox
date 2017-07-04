@@ -10,37 +10,93 @@ import UIKit
 
 
 @IBDesignable
-class CheckBox: UIView {
+public class CheckBox: UIView {
     
     private (set) var selectedCircleView: CircleView!
-    private (set) var selectedTickView: TickView!
+    private (set) var selectedCheckView: CheckView!
     
     private (set) var unselectedCircleView: CircleView!
-    private (set) var unselectedTickView: TickView!
+    private (set) var unselectedCheckView: CheckView!
     
     private var unselectedViews: [DrawView]!
     private var selectedViews: [DrawView]!
     
-    var unselected: Bool = true
     
-    override init(frame: CGRect) {
+    public var unselectedBorderColor: UIColor = UIColor.clear {
+        didSet {
+            unselectedCircleView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
+        }
+    }
+    public var selectedBorderColor: UIColor = UIColor.clear {
+        didSet {
+            selectedCircleView.shapeLayer.strokeColor = selectedBorderColor.cgColor
+        }
+    }
+    public var unselectedCheckColor: UIColor = UIColor.clear {
+        didSet {
+            unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
+        }
+    }
+    public var selectedCheckColor: UIColor = UIColor.red {
+        didSet {
+            selectedCheckView.shapeLayer.strokeColor = selectedCheckColor.cgColor
+        }
+    }
+    public var borderAnimationDuration: TimeInterval = 0.3 {
+        didSet {
+            unselectedCircleView.animation.duration = borderAnimationDuration
+            selectedCircleView.animation.duration = borderAnimationDuration
+        }
+    }
+    public var checkAnimationDuration: TimeInterval = 0.3 {
+        didSet {
+            unselectedCheckView.animation.duration = checkAnimationDuration
+            selectedCheckView.animation.duration = checkAnimationDuration
+        }
+    }
+    public var animationDuration: TimeInterval = 0.3 {
+        didSet {
+            borderAnimationDuration = animationDuration
+            checkAnimationDuration = animationDuration
+        }
+    }
+    public var clickHandler: ((_ isChecked: Bool)->Void)?
+    
+    
+    internal (set) public var isChecked: Bool = false {
+        didSet {
+            clickHandler?(isChecked)
+        }
+    }
+    
+    
+    override public init(frame: CGRect) {
         super.init(frame: frame)
+        
         self.setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
         self.setup()
     }
     
     private func setup() {
-        selectedCircleView = CircleView(frame: frame)
+        let circleFrame = CGRect(
+            x: 0,
+            y: 0,
+            width: frame.width,
+            height: frame.height
+        )
+        selectedCircleView = CircleView(frame: circleFrame)
+        
         let squareSize = frame.height <= frame.width ? frame.height : frame.width
         
-        let tickViewWidth = squareSize / 3
-        let tickViewHeight = squareSize / 3
+        let tickViewWidth = squareSize / 2
+        let tickViewHeight = squareSize / 2
         
-        selectedTickView = TickView(
+        selectedCheckView = CheckView(
             frame: CGRect(
                 x: frame.width / 2 - tickViewWidth / 2,
                 y: frame.height / 2 - tickViewHeight / 2,
@@ -48,40 +104,44 @@ class CheckBox: UIView {
                 height: tickViewHeight
             )
         )
-        selectedCircleView.shapeLayer.strokeColor = UIColor.blue.cgColor
+        selectedCircleView.shapeLayer.strokeColor = selectedBorderColor.cgColor
         selectedCircleView.shapeLayer.lineWidth = 2
-        selectedTickView.shapeLayer.strokeColor = UIColor.green.cgColor
-        selectedTickView.shapeLayer.lineWidth = 2
+        
+        selectedCheckView.shapeLayer.strokeColor = selectedCheckColor.cgColor
+        selectedCheckView.shapeLayer.lineWidth = 2
         
         self.addSubview(selectedCircleView)
-        selectedCircleView.addSubview(selectedTickView)
+        selectedCircleView.addSubview(selectedCheckView)
         selectedCircleView.isHidden = true
         
-        unselectedCircleView = CircleView(frame: frame)
+        unselectedCircleView = CircleView(frame: circleFrame)
         unselectedCircleView.shapeLayer.path = unselectedCircleView.path.reversing().cgPath
         
-        unselectedTickView = TickView(frame: selectedTickView.frame)
-        unselectedTickView.shapeLayer.path = unselectedTickView.path.reversing().cgPath
-        unselectedCircleView.shapeLayer.strokeColor = UIColor.gray.cgColor
+        unselectedCheckView = CheckView(frame: selectedCheckView.frame)
+        unselectedCheckView.shapeLayer.path = unselectedCheckView.path.reversing().cgPath
+        unselectedCircleView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
         unselectedCircleView.shapeLayer.lineWidth = 2
-        unselectedTickView.shapeLayer.strokeColor = UIColor.gray.cgColor
-        unselectedTickView.shapeLayer.lineWidth = 2
+        unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
+        unselectedCheckView.shapeLayer.lineWidth = 2
         
         self.addSubview(unselectedCircleView)
-        unselectedCircleView.addSubview(unselectedTickView)
+        unselectedCircleView.addSubview(unselectedCheckView)
         
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(CheckBox.clickAction(_:)))
+        let gesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(CheckBox.clickAction(_:))
+        )
         self.addGestureRecognizer(gesture)
         
-        selectedViews = [selectedCircleView, selectedTickView]
-        unselectedViews = [unselectedCircleView, unselectedTickView]
+        selectedViews = [selectedCircleView, selectedCheckView]
+        unselectedViews = [unselectedCircleView, unselectedCheckView]
     }
     
     func clickAction(_ sender:UITapGestureRecognizer){
         self.isUserInteractionEnabled = false
         var maxDuration: CFTimeInterval = 0
         
-        if !unselected {
+        if isChecked {
             self.bringSubview(toFront: unselectedCircleView)
             
             for index in 0..<unselectedViews.count {
@@ -90,7 +150,7 @@ class CheckBox: UIView {
                 }
                 
                 unselectedViews[index].startAnimation()
-                selectedViews[index].reversAnimation(
+                selectedViews[index].reverseAnimation(
                     duration: unselectedViews[index].animation.duration
                 )
             }
@@ -104,13 +164,13 @@ class CheckBox: UIView {
                 }
                 
                 selectedViews[index].startAnimation()
-                unselectedViews[index].reversAnimation(
+                unselectedViews[index].reverseAnimation(
                     duration: selectedViews[index].animation.duration
                 )
             }
         }
         
-        unselected = !unselected
+        isChecked = !isChecked
         
         DispatchQueue.main.asyncAfter(deadline: .now() + maxDuration) {
             self.isUserInteractionEnabled = true
