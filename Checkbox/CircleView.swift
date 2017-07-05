@@ -30,7 +30,7 @@ class CircleView: DrawView {
         shapeLayer.path = path.cgPath
         
         layer.addSublayer(shapeLayer)
-        
+        shapeLayer.backgroundColor = UIColor.red.cgColor
         print("circle commonInit")
     }
     

@@ -12,11 +12,11 @@ import UIKit
 @IBDesignable
 public class CheckBox: UIView {
     
-    private (set) var unselectedCircleView: CircleView!
-    private (set) var selectedCircleView: CircleView!
+    private var unselectedCircleView: CircleView!
+    private var selectedCircleView: CircleView!
     
-    private (set) var unselectedCheckView: CheckView!
-    private (set) var selectedCheckView: CheckView!
+    private var unselectedCheckView: CheckView!
+    private var selectedCheckView: CheckView!
     
     private var unselectedViews: [DrawView]!
     private var selectedViews: [DrawView]!
@@ -87,6 +87,18 @@ public class CheckBox: UIView {
         }
     }
     
+    public var unselectBackgroundColor: UIColor = UIColor.clear {
+        didSet {
+            unselectedCircleView.shapeLayer.fillColor = unselectBackgroundColor.cgColor
+        }
+    }
+    
+    public var selectBackgroundColor: UIColor = UIColor.clear {
+        didSet {
+            selectedCircleView.shapeLayer.fillColor = selectBackgroundColor.cgColor
+        }
+    }
+    
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -124,6 +136,7 @@ public class CheckBox: UIView {
         )
         selectedCircleView.shapeLayer.strokeColor = selectedBorderColor.cgColor
         selectedCircleView.shapeLayer.lineWidth = borderLineWidth
+        selectedCircleView.shapeLayer.fillColor = selectBackgroundColor.cgColor
         
         selectedCheckView.shapeLayer.strokeColor = selectedCheckColor.cgColor
         selectedCheckView.shapeLayer.lineWidth = borderLineWidth
@@ -139,11 +152,13 @@ public class CheckBox: UIView {
         unselectedCheckView.shapeLayer.path = unselectedCheckView.path.reversing().cgPath
         unselectedCircleView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
         unselectedCircleView.shapeLayer.lineWidth = checkLineWidth
+        unselectedCircleView.shapeLayer.fillColor = unselectBackgroundColor.cgColor
         unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
         unselectedCheckView.shapeLayer.lineWidth = checkLineWidth
         
         self.addSubview(unselectedCircleView)
         unselectedCircleView.addSubview(unselectedCheckView)
+        
         
         let gesture = UITapGestureRecognizer(
             target: self,

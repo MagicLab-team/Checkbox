@@ -21,6 +21,8 @@ class ViewController: UIViewController {
         view.addSubview(checkbox)
         checkbox.selectedBorderColor = UIColor.yellow
         
+        
+        
         bigCheckbox.unselectedBorderColor = UIColor.lightGray
         bigCheckbox.unselectedCheckColor = UIColor.clear
         bigCheckbox.selectedBorderColor = UIColor.blue

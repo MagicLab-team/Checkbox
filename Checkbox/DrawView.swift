@@ -8,6 +8,9 @@
 
 import UIKit
 
+//animation sytoke
+//fade
+
 @IBDesignable
 class DrawView: UIView {
     
