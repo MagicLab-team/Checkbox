@@ -50,6 +50,7 @@ public class CheckBox: UIView {
             selectedCircleView.shapeLayer.strokeColor = selectedBorderColor.cgColor
         }
     }
+    
     public var unselectedCheckColor: UIColor = UIColor.clear {
         didSet {
             unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
