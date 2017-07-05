@@ -55,6 +55,7 @@ public class CheckBox: UIView {
             unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
         }
     }
+    
     public var selectedCheckColor: UIColor = UIColor.red {
         didSet {
             selectedCheckView.shapeLayer.strokeColor = selectedCheckColor.cgColor
