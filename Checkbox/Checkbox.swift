@@ -8,24 +8,37 @@
 
 import UIKit
 
+public enum BorderType {
+    case circle
+    case square(cornerRadii: Int)
+}
+public enum CheckType {
+    case defoult
+    case circle
+}
+public enum AnimationType {
+    case stroke
+    case fade
+    case size
+}
 
 @IBDesignable
 public class CheckBox: UIView {
     
-    private var unselectedCircleView: CircleView!
-    private var selectedCircleView: CircleView!
+    private var unselectedBorderView: DrawView!
+    private var selectedBorderView: DrawView!
     
-    private var unselectedCheckView: CheckView!
-    private var selectedCheckView: CheckView!
+    private var unselectedCheckView: DrawView!
+    private var selectedCheckView: DrawView!
     
-    private var unselectedViews: [DrawView]!
-    private var selectedViews: [DrawView]!
-    
+    private var animationType: AnimationType
+    private var borderType: BorderType
+    private var checkType: CheckType
     
     public var borderLineWidth: CGFloat = 2 {
         didSet {
-            unselectedCircleView.shapeLayer.lineWidth = borderLineWidth
-            selectedCircleView.shapeLayer.lineWidth = borderLineWidth
+            unselectedBorderView.shapeLayer.lineWidth = borderLineWidth
+            selectedBorderView.shapeLayer.lineWidth = borderLineWidth
         }
     }
     public var checkLineWidth: CGFloat = 2 {
@@ -42,30 +55,36 @@ public class CheckBox: UIView {
     }
     public var unselectedBorderColor: UIColor = UIColor.clear {
         didSet {
-            unselectedCircleView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
+            unselectedBorderView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
         }
     }
     public var selectedBorderColor: UIColor = UIColor.clear {
         didSet {
-            selectedCircleView.shapeLayer.strokeColor = selectedBorderColor.cgColor
+            selectedBorderView.shapeLayer.strokeColor = selectedBorderColor.cgColor
         }
     }
     
     public var unselectedCheckColor: UIColor = UIColor.clear {
         didSet {
             unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
+            if checkType == .circle {
+                unselectedCheckView.shapeLayer.fillColor = unselectedCheckColor.cgColor
+            }
         }
     }
     
     public var selectedCheckColor: UIColor = UIColor.red {
         didSet {
             selectedCheckView.shapeLayer.strokeColor = selectedCheckColor.cgColor
+            if checkType == .circle {
+                selectedCheckView.shapeLayer.fillColor = selectedCheckColor.cgColor
+            }
         }
     }
     public var borderAnimationDuration: TimeInterval = 0.3 {
         didSet {
-            unselectedCircleView.animation.duration = borderAnimationDuration
-            selectedCircleView.animation.duration = borderAnimationDuration
+            unselectedBorderView.animation.duration = borderAnimationDuration
+            selectedBorderView.animation.duration = borderAnimationDuration
         }
     }
     public var checkAnimationDuration: TimeInterval = 0.3 {
@@ -91,26 +110,36 @@ public class CheckBox: UIView {
     
     public var unselectBackgroundColor: UIColor = UIColor.clear {
         didSet {
-            unselectedCircleView.shapeLayer.fillColor = unselectBackgroundColor.cgColor
+            unselectedBorderView.shapeLayer.fillColor = unselectBackgroundColor.cgColor
         }
     }
     
     public var selectBackgroundColor: UIColor = UIColor.clear {
         didSet {
-            selectedCircleView.shapeLayer.fillColor = selectBackgroundColor.cgColor
+            selectedBorderView.shapeLayer.fillColor = selectBackgroundColor.cgColor
         }
     }
     
     
-    override public init(frame: CGRect) {
-        super.init(frame: frame)
+    public init(
+        frame: CGRect,
+        anomationType: AnimationType,
+        borderType: BorderType,
+        checkType: CheckType
+        ) {
         
+        self.animationType = anomationType
+        self.borderType = borderType
+        self.checkType = checkType
+        super.init(frame: frame)
         self.setup()
     }
     
     required public init?(coder aDecoder: NSCoder) {
+        animationType = .fade
+        borderType = .square(cornerRadii: 0)
+        checkType = .circle
         super.init(coder: aDecoder)
-        
         self.setup()
     }
     
@@ -121,45 +150,75 @@ public class CheckBox: UIView {
             width: frame.width,
             height: frame.height
         )
-        selectedCircleView = CircleView(frame: circleFrame)
+        
+        switch borderType {
+        case .circle:
+            selectedBorderView = CircleView(frame: circleFrame, animationType: self.animationType)
+            unselectedBorderView = CircleView(frame: circleFrame, animationType: self.animationType)
+        case let .square(cornerRadii):
+            selectedBorderView = SqareView(
+                frame: circleFrame,
+                animationType: animationType,
+                cornerRadii: cornerRadii
+            )
+            unselectedBorderView = SqareView(
+                frame: circleFrame, animationType:
+                animationType,
+                cornerRadii: cornerRadii
+            )
+        }
         
         let squareSize = frame.height <= frame.width ? frame.height : frame.width
         
         let tickViewWidth = squareSize / 2
         let tickViewHeight = squareSize / 2
         
-        selectedCheckView = CheckView(
-            frame: CGRect(
-                x: frame.width / 2 - tickViewWidth / 2,
-                y: frame.height / 2 - tickViewHeight / 2,
-                width: tickViewWidth,
-                height: tickViewHeight
-            )
+        let checkViewFrame = CGRect(
+            x: frame.width / 2 - tickViewWidth / 2,
+            y: frame.height / 2 - tickViewHeight / 2,
+            width: tickViewWidth,
+            height: tickViewHeight
         )
-        selectedCircleView.shapeLayer.strokeColor = selectedBorderColor.cgColor
-        selectedCircleView.shapeLayer.lineWidth = borderLineWidth
-        selectedCircleView.shapeLayer.fillColor = selectBackgroundColor.cgColor
+        
+        switch checkType {
+        case .circle:
+            selectedCheckView = CircleView(frame: checkViewFrame, animationType: animationType)
+            unselectedCheckView = CircleView(frame: checkViewFrame, animationType: animationType)
+        case .defoult:
+            selectedCheckView = CheckView(
+                frame: checkViewFrame,
+                animationType: self.animationType
+            )
+            unselectedCheckView = CheckView(
+                frame: checkViewFrame,
+                animationType: self.animationType
+            )
+        }
+        
+        
+        selectedBorderView.shapeLayer.strokeColor = selectedBorderColor.cgColor
+        selectedBorderView.shapeLayer.lineWidth = borderLineWidth
+        selectedBorderView.shapeLayer.fillColor = selectBackgroundColor.cgColor
         
         selectedCheckView.shapeLayer.strokeColor = selectedCheckColor.cgColor
         selectedCheckView.shapeLayer.lineWidth = borderLineWidth
         
-        self.addSubview(selectedCircleView)
-        selectedCircleView.addSubview(selectedCheckView)
-        selectedCircleView.isHidden = true
+        self.addSubview(selectedBorderView)
+        selectedBorderView.addSubview(selectedCheckView)
+        selectedBorderView.isHidden = true
         
-        unselectedCircleView = CircleView(frame: circleFrame)
-        unselectedCircleView.shapeLayer.path = unselectedCircleView.path.reversing().cgPath
+        unselectedBorderView.shapeLayer.path = unselectedBorderView.path.reversing().cgPath
         
-        unselectedCheckView = CheckView(frame: selectedCheckView.frame)
+        
         unselectedCheckView.shapeLayer.path = unselectedCheckView.path.reversing().cgPath
-        unselectedCircleView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
-        unselectedCircleView.shapeLayer.lineWidth = checkLineWidth
-        unselectedCircleView.shapeLayer.fillColor = unselectBackgroundColor.cgColor
+        unselectedBorderView.shapeLayer.strokeColor = unselectedBorderColor.cgColor
+        unselectedBorderView.shapeLayer.lineWidth = checkLineWidth
+        unselectedBorderView.shapeLayer.fillColor = unselectBackgroundColor.cgColor
         unselectedCheckView.shapeLayer.strokeColor = unselectedCheckColor.cgColor
         unselectedCheckView.shapeLayer.lineWidth = checkLineWidth
         
-        self.addSubview(unselectedCircleView)
-        unselectedCircleView.addSubview(unselectedCheckView)
+        self.addSubview(unselectedBorderView)
+        unselectedBorderView.addSubview(unselectedCheckView)
         
         
         let gesture = UITapGestureRecognizer(
@@ -168,48 +227,49 @@ public class CheckBox: UIView {
         )
         self.addGestureRecognizer(gesture)
         
-        selectedViews = [selectedCircleView, selectedCheckView]
-        unselectedViews = [unselectedCircleView, unselectedCheckView]
+        
     }
     
     func clickAction(_ sender:UITapGestureRecognizer){
+        
         self.isUserInteractionEnabled = false
+        var checkDuration: CFTimeInterval = 0
+        var borderDuration: CFTimeInterval = 0
         var maxDuration: CFTimeInterval = 0
         
         if isChecked {
-            self.bringSubview(toFront: unselectedCircleView)
+            self.bringSubview(toFront: unselectedBorderView)
             
-            for index in 0..<unselectedViews.count {
-                if unselectedViews[index].animation.duration > maxDuration {
-                    maxDuration = unselectedViews[index].animation.duration
-                }
-                
-                unselectedViews[index].startAnimation()
-                selectedViews[index].reverseAnimation(
-                    duration: unselectedViews[index].animation.duration
-                )
-            }
+            checkDuration = unselectedCheckView.animation.duration
+            borderDuration = unselectedBorderView.animation.duration
+            maxDuration = checkDuration >= borderDuration ? checkDuration : borderDuration
+            
+            unselectedCheckView.startAnimation()
+            unselectedBorderView.startAnimation()
+            
+            selectedCheckView.reverseAnimation(duration: selectedCheckView.animation.duration)
+            selectedBorderView.reverseAnimation(duration: selectedBorderView.animation.duration)
+            
         } else {
-            self.bringSubview(toFront: selectedCircleView)
+            self.bringSubview(toFront: selectedBorderView)
             
-            for index in 0..<selectedViews.count {
-                
-                if selectedViews[index].animation.duration > maxDuration {
-                    maxDuration = selectedViews[index].animation.duration
-                }
-                
-                selectedViews[index].startAnimation()
-                unselectedViews[index].reverseAnimation(
-                    duration: selectedViews[index].animation.duration
-                )
-            }
+            checkDuration = selectedCheckView.animation.duration
+            borderDuration = selectedBorderView.animation.duration
+            
+            selectedCheckView.startAnimation()
+            selectedBorderView.startAnimation()
+            
+            unselectedCheckView.reverseAnimation(duration: unselectedCheckView.animation.duration)
+            unselectedBorderView.reverseAnimation(duration: unselectedBorderView.animation.duration)
         }
         
+        maxDuration = checkDuration >= borderDuration ? checkDuration : borderDuration
         isChecked = !isChecked
         
         DispatchQueue.main.asyncAfter(deadline: .now() + maxDuration) {
             self.isUserInteractionEnabled = true
         }
+        
     }
     
 }

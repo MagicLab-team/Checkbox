@@ -17,18 +17,34 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let checkbox = CheckBox(frame: CGRect(x: 100, y: 100, width: 100, height: 150))
+        let checkbox = CheckBox(
+            frame: CGRect(x: 100, y: 100, width: 100, height: 100),
+            anomationType: .size,
+            borderType: .circle,
+            checkType: .circle
+        )
+        
+
         view.addSubview(checkbox)
         checkbox.selectedBorderColor = UIColor.yellow
         
+        checkbox.unselectedBorderColor = UIColor.lightGray
+        checkbox.unselectedCheckColor = UIColor.lightGray
+        checkbox.selectedBorderColor = UIColor.blue
+        checkbox.selectedCheckColor = UIColor.blue
+        checkbox.animationDuration = 0.5
+        checkbox.lineWidth = 5
         
         
+        bigCheckbox.isHidden = true
         bigCheckbox.unselectedBorderColor = UIColor.lightGray
         bigCheckbox.unselectedCheckColor = UIColor.clear
         bigCheckbox.selectedBorderColor = UIColor.blue
         bigCheckbox.selectedCheckColor = UIColor.blue
         bigCheckbox.animationDuration = 0.5
         bigCheckbox.lineWidth = 5
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

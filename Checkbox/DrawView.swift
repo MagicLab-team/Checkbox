@@ -14,7 +14,8 @@ import UIKit
 @IBDesignable
 class DrawView: UIView {
     
-    let animation = CABasicAnimation(keyPath: "strokeEnd")
+    let animation: CABasicAnimation
+    private let animationType: AnimationType
     
     let shapeLayer = CAShapeLayer()
     var path = UIBezierPath() {
@@ -23,17 +24,29 @@ class DrawView: UIView {
         }
     }
     
-    
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(frame: CGRect, animationType: AnimationType) {
         
+        self.animationType = animationType
+        
+        switch animationType {
+        case .stroke:
+            self.animation = CABasicAnimation(keyPath: "strokeEnd")
+        case .fade:
+            self.animation = CABasicAnimation(keyPath: "opacity")
+        case .size:
+            self.animation = CABasicAnimation()
+        }
+        
+        
+        super.init(frame: frame)
         commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        self.animation = CABasicAnimation(keyPath: "strokeEnd")
+        self.animationType = .stroke
         
+        super.init(coder: aDecoder)
         commonInit()
     }
     
@@ -56,12 +69,40 @@ class DrawView: UIView {
     
     func startAnimation() {
         self.isHidden = false
-        shapeLayer.removeAllAnimations()
-        shapeLayer.add(animation, forKey: "animate")
+        
+        switch animationType {
+        case .size:
+            let third: CFTimeInterval = animation.duration/3
+            UIView.animate(withDuration: third, animations: {
+                self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }, completion: {(finished) in
+                UIView.animate(withDuration: third, animations: {
+                    self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                }, completion: {(finished) in
+                    UIView.animate(withDuration: third, animations: {
+                        self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    })
+                })
+            })
+        default:
+            shapeLayer.removeAllAnimations()
+            shapeLayer.add(animation, forKey: "animate")
+        }
     }
     
     func reverseAnimation(duration: CFTimeInterval) {
-        let revAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        var key = ""
+        switch animationType {
+        case .stroke:
+            key = "strokeEnd"
+        case.fade:
+            key = "opacity"
+        case .size:
+            self.isHidden = true
+            return
+        }
+        
+        let revAnimation = CABasicAnimation(keyPath: key)
         
         revAnimation.fromValue = shapeLayer.presentation()?.strokeEnd
         revAnimation.toValue = 0.0
@@ -73,8 +114,10 @@ class DrawView: UIView {
         shapeLayer.removeAllAnimations()
         shapeLayer.add(revAnimation, forKey: "animate")
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + revAnimation.duration) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             self.isHidden = true
         }
+        
     }
+    
 }
