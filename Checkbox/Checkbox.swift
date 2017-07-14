@@ -142,6 +142,14 @@ public class CheckBox: UIView {
         }
     }
     
+    public func check() {
+        check(isChecked: true)
+    }
+    
+    public func uncheck() {
+        check(isChecked: false)
+    }
+    
     
     public init(
         frame: CGRect,
@@ -284,14 +292,17 @@ public class CheckBox: UIView {
         self.addSubview(unselectedCheckView)
     }
     
-    func clickAction(_ sender:UITapGestureRecognizer){
-        
+    func clickAction(_ sender: UITapGestureRecognizer) {
+        check(isChecked: !isChecked)
+    }
+    
+    private func check(isChecked: Bool) {
         self.isUserInteractionEnabled = false
         var checkDuration: CFTimeInterval = 0
         var borderDuration: CFTimeInterval = 0
         var maxDuration: CFTimeInterval = 0
         
-        if isChecked {
+        if !isChecked {
             self.bringSubview(toFront: unselectedBorderView!)
             
             checkDuration = unselectedCheckView.animation.duration
@@ -320,13 +331,11 @@ public class CheckBox: UIView {
         }
         
         maxDuration = checkDuration >= borderDuration ? checkDuration : borderDuration
-        isChecked = !isChecked
+        self.isChecked = isChecked
         
         DispatchQueue.main.asyncAfter(deadline: .now() + maxDuration) {
             self.isUserInteractionEnabled = true
         }
-        
     }
-    
 }
 

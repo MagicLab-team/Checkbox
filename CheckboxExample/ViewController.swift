@@ -19,20 +19,21 @@ class ViewController: UIViewController {
         
         let checkbox = CheckBox(
             frame: CGRect(x: 0, y: 0, width: 100, height: 100),
-            borderType: .square(cornerRadii: 0, animation: .size),
-            checkType: .plus(animation: .stroke)
+            borderType: .circle(animation: AnimationType.fade),
+            checkType: .circle(circleAnimation: CircleAnimationType.fade)
         )
 
         view.addSubview(checkbox)
         checkbox.selectedBorderColor = UIColor.yellow
         
         checkbox.unselectedBorderColor = UIColor.lightGray
-        checkbox.unselectedCheckColor = UIColor.lightGray
+        checkbox.unselectedCheckColor = UIColor.clear
         checkbox.selectedBorderColor = UIColor.blue
         checkbox.selectedCheckColor = UIColor.blue
         checkbox.animationDuration = 0.5
         checkbox.lineWidth = 5
         
+        checkbox.check()
         
         bigCheckbox.isHidden = true
         bigCheckbox.unselectedBorderColor = UIColor.lightGray
