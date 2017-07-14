@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
     s.author             = { "Roman Sorochak" => "roman.sorochak@gmail.com" }
     s.platform     = :ios, "8.0"
     s.ios.deployment_target = "8.0"
-    s.source       = { :git => "https://github.com/MagicLab-team/Checkbox", :tag => s.version }
+    s.source       = { :git => "https://github.com/MagicLab-team/Checkbox.git", :tag => s.version }
     s.source_files  = "Checkbox/*.swift"
     s.module_name = "Checkbox"
 end
