@@ -18,12 +18,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let checkbox = CheckBox(
-            frame: CGRect(x: 100, y: 100, width: 100, height: 100),
-            anomationType: .stroke,
-            borderType: .circle,
-            checkType: .star
+            frame: CGRect(x: 0, y: 0, width: 100, height: 100),
+            borderType: .square(cornerRadii: 0, animation: .size),
+            checkType: .plus(animation: .stroke)
         )
-        
 
         view.addSubview(checkbox)
         checkbox.selectedBorderColor = UIColor.yellow
