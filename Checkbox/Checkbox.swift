@@ -15,6 +15,9 @@ public enum BorderType {
 public enum CheckType {
     case defoult
     case circle
+    case heart
+    case star
+    case plus
 }
 public enum AnimationType {
     case stroke
@@ -181,9 +184,18 @@ public class CheckBox: UIView {
         )
         
         switch checkType {
+        case .plus:
+            selectedCheckView = PlusView(frame: checkViewFrame, animationType: animationType)
+            unselectedCheckView = PlusView(frame: checkViewFrame, animationType: animationType)
+        case .star:
+            selectedCheckView = StarView(frame: checkViewFrame, animationType: animationType)
+            unselectedCheckView = StarView(frame: checkViewFrame, animationType: animationType)
         case .circle:
             selectedCheckView = CircleView(frame: checkViewFrame, animationType: animationType)
             unselectedCheckView = CircleView(frame: checkViewFrame, animationType: animationType)
+        case .heart:
+            selectedCheckView = HeartView(frame: checkViewFrame, animationType: animationType)
+            unselectedCheckView = HeartView(frame: checkViewFrame, animationType: animationType)
         case .defoult:
             selectedCheckView = CheckView(
                 frame: checkViewFrame,

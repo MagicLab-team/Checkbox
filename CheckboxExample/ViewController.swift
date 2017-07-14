@@ -19,9 +19,9 @@ class ViewController: UIViewController {
         
         let checkbox = CheckBox(
             frame: CGRect(x: 100, y: 100, width: 100, height: 100),
-            anomationType: .size,
+            anomationType: .stroke,
             borderType: .circle,
-            checkType: .circle
+            checkType: .star
         )
         
 

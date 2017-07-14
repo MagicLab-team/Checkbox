@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3248AE791F19002D00B5AF25 /* HeartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3248AE781F19002D00B5AF25 /* HeartView.swift */; };
+		3248AE7B1F19051300B5AF25 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3248AE7A1F19051300B5AF25 /* StarView.swift */; };
+		3248AE7D1F190E7300B5AF25 /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3248AE7C1F190E7300B5AF25 /* PlusView.swift */; };
 		325F58371F0C0AEC0095122C /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325F58361F0C0AEC0095122C /* CircleView.swift */; };
 		325F58391F0C0AFE0095122C /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325F58381F0C0AFE0095122C /* CheckView.swift */; };
 		325F583B1F0C0B0E0095122C /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325F583A1F0C0B0E0095122C /* DrawView.swift */; };
@@ -47,6 +50,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3248AE781F19002D00B5AF25 /* HeartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartView.swift; sourceTree = "<group>"; };
+		3248AE7A1F19051300B5AF25 /* StarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
+		3248AE7C1F190E7300B5AF25 /* PlusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		325F58361F0C0AEC0095122C /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		325F58381F0C0AFE0095122C /* CheckView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
 		325F583A1F0C0B0E0095122C /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
@@ -87,7 +93,6 @@
 			isa = PBXGroup;
 			children = (
 				B51507571F0BB32A00AC4C46 /* Checkbox */,
-				B56DF1B41F0BB362007B99D6 /* CheckboxExample */,
 				B51507561F0BB32A00AC4C46 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,8 +114,12 @@
 				325F58361F0C0AEC0095122C /* CircleView.swift */,
 				32F835EB1F13D14100824A48 /* SqareView.swift */,
 				325F58381F0C0AFE0095122C /* CheckView.swift */,
+				3248AE781F19002D00B5AF25 /* HeartView.swift */,
+				3248AE7A1F19051300B5AF25 /* StarView.swift */,
+				3248AE7C1F190E7300B5AF25 /* PlusView.swift */,
 				325F583A1F0C0B0E0095122C /* DrawView.swift */,
 				B51507591F0BB32A00AC4C46 /* Info.plist */,
+				B56DF1B41F0BB362007B99D6 /* CheckboxExample */,
 			);
 			path = Checkbox;
 			sourceTree = "<group>";
@@ -126,7 +135,7 @@
 				B56DF1C11F0BB362007B99D6 /* Info.plist */,
 			);
 			path = CheckboxExample;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -246,10 +255,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3248AE7D1F190E7300B5AF25 /* PlusView.swift in Sources */,
 				325F58371F0C0AEC0095122C /* CircleView.swift in Sources */,
+				3248AE791F19002D00B5AF25 /* HeartView.swift in Sources */,
 				32F835EC1F13D14100824A48 /* SqareView.swift in Sources */,
 				B56DF1CB1F0BB376007B99D6 /* Checkbox.swift in Sources */,
 				325F583B1F0C0B0E0095122C /* DrawView.swift in Sources */,
+				3248AE7B1F19051300B5AF25 /* StarView.swift in Sources */,
 				325F58391F0C0AFE0095122C /* CheckView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
